@@ -43,7 +43,7 @@ base_price = st.number_input("Base Price (₹)", min_value=1, max_value=1000, va
 
 if st.button("Calculate Dynamic Price"):
     today = datetime.today().date()
-    print(today)
+    st.success(f"Today's date: {today}")
     days_left = (expiry_date - today).days
     demand_factor = {"Low": 0.9, "Medium": 1.0, "High": 1.1}
     expiry_factor = 0.95 if days_left <= 2 else 1.0
@@ -117,4 +117,5 @@ if file is not None:
 
     except Exception as e:
         st.error(f"Something went wrong: {e}")
+
 
