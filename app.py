@@ -42,7 +42,8 @@ demand = st.selectbox("Demand Level", ["Low", "Medium", "High"])
 base_price = st.number_input("Base Price (₹)", min_value=1, max_value=1000, value=50)
 
 if st.button("Calculate Dynamic Price"):
-    today = datetime(2025, 6, 24)
+    today = datetime.today().date()
+    print(today)
     days_left = (expiry_date - today.date()).days
     demand_factor = {"Low": 0.9, "Medium": 1.0, "High": 1.1}
     expiry_factor = 0.95 if days_left <= 2 else 1.0
@@ -51,7 +52,7 @@ if st.button("Calculate Dynamic Price"):
     st.success(f"Dynamic Price for {product}: ₹{dynamic_price}")
 
 if st.button("AI Suggestion"):
-    days_left = (expiry_date - datetime(2025, 6, 24).date()).days
+    days_left = (expiry_date -datetime.today().date().date()).days
     demand_code = le_demand.transform([demand])[0]
     features = pd.DataFrame([[base_price, inventory, demand_code, days_left]],
                             columns=["Base_Price", "Inventory", "Demand_Code", "Days_Left"])
@@ -69,7 +70,8 @@ file = st.file_uploader("Upload your CSV file", type=["csv"])
 if file is not None:
     df = pd.read_csv(file)
     try:
-        today = datetime(2025, 6, 24)
+        today = datetime.today().date()
+        print(today)
         df["Expiry_Date"] = pd.to_datetime(df["Expiry_Date"], format="%d-%m-%Y", errors='coerce')
         df["Days_Left"] = (df["Expiry_Date"] - today).dt.days
 
